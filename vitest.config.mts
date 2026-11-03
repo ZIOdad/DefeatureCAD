@@ -13,7 +13,8 @@ export default defineConfig({
       "node_modules/**",
       ".next/**",
       "e2e/**",
-      ".claude/worktrees/**",
+      ".agents/**",
+      ".claude/**",
     ],
   },
 });

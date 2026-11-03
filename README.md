@@ -1,10 +1,8 @@
-# Claude Code Playbook Template
+# Codex Playbook Template
 
-[![Claude Hunt](https://img.shields.io/badge/Claude_Hunt-강의-000000)](https://www.claude-hunt.com)
-[![Docs](https://img.shields.io/badge/docs-claude--hunt-2563eb)](https://docs.claude-hunt.com)
+[![Codex Docs](https://img.shields.io/badge/OpenAI-Codex-000000)](https://developers.openai.com/codex/ide)
 
-> [Claude Hunt](https://www.claude-hunt.com) 강의용 Next.js 16 + React 19 템플릿.
-> 사용법과 워크플로우 문서는 [docs.claude-hunt.com](https://docs.claude-hunt.com)에서 확인하세요.
+Codex extension과 CLI에서 바로 작업할 수 있도록 구성한 Next.js 16 + React 19 학습용 템플릿입니다. Claude Code 호환 표면도 함께 유지합니다.
 
 ## 기술 스택
 
@@ -19,6 +17,30 @@ bun dev
 
 [http://localhost:3000](http://localhost:3000)에서 결과를 확인할 수 있습니다.
 
+Codex CLI를 사용할 때는 저장소 루트에서 시작합니다.
+
+```bash
+codex -C .
+```
+
+별도의 managed worktree에서 CLI 세션을 시작하려면 다음 명령을 사용합니다.
+
+```bash
+codex --worktree
+```
+
+Codex extension에서는 Git worktree를 만든 뒤 해당 폴더를 새 VS Code 창으로 열어 같은 방식으로 작업할 수 있습니다.
+
+## 에이전트 컨텍스트
+
+- `AGENTS.md`: Codex가 항상 읽는 저장소 작업 규칙
+- `.agents/skills/`: Codex 프로젝트 스킬
+- `docs/decisions/README.md`: 작업 주제에 맞는 지속 결정의 진입점
+- `skills-lock.json`: 설치된 프로젝트 스킬의 원본과 잠금 정보
+- `CLAUDE.md`, `.claude/skills/`: Claude Code 호환 복사본
+
+프로젝트 스킬은 symlink 없이 `.agents/skills/`와 `.claude/skills/`에 같은 내용으로 복사합니다. 설치와 갱신 정책은 `AGENTS.md`를 따릅니다.
+
 ## 스크립트
 
 | 명령어 | 설명 |
@@ -27,7 +49,7 @@ bun dev
 | `bun run build` | 프로덕션 빌드 |
 | `bun start` | 프로덕션 서버 실행 |
 | `bun run lint` | ESLint 실행 |
-| `bun run typecheck` | `tsc --noEmit` 타입 검사 |
+| `bun run typecheck` | `next typegen` 후 `tsc --noEmit` 타입 검사 |
 | `bun run test` | Vitest 단위/컴포넌트 테스트 1회 실행 |
 | `bun run test:watch` | Vitest watch 모드 |
 | `bun run test:e2e` | Playwright E2E 테스트 실행 |
@@ -43,7 +65,7 @@ E2E를 처음 실행하기 전에 브라우저를 한 번 내려받아야 합니
 bunx playwright install chromium
 ```
 
-브라우저가 이미 설치된 환경(예: Claude Code 원격 세션)에서는 내려받는 대신 실행 파일 경로를 지정할 수 있습니다.
+브라우저가 이미 설치된 에이전트 환경에서는 내려받는 대신 실행 파일 경로를 지정할 수 있습니다.
 
 ```bash
 PLAYWRIGHT_CHROMIUM_PATH=/opt/pw-browsers/chromium bun run test:e2e
@@ -51,14 +73,9 @@ PLAYWRIGHT_CHROMIUM_PATH=/opt/pw-browsers/chromium bun run test:e2e
 
 `async` Server Component는 Vitest가 아직 지원하지 않으므로 E2E로 검증합니다.
 
-- **런타임 검증(에이전트용)**: [agent-browser](https://github.com/vercel-labs/agent-browser). 에이전트가 `next-dev-loop` 스킬로 실행 중인 앱을 직접 조작해 변경을 확인할 때 씁니다. 프로젝트 의존성이 아니므로 한 번 전역으로 설치합니다.
+- **런타임 검증(에이전트용)**: 실행 중인 앱은 `next-dev-loop` 스킬로 확인합니다. 이 프로젝트에서는 `/_next/mcp`와 `agent-browser`를 함께 사용하며, Playwright 테스트로 런타임 확인을 대신하지 않습니다.
 
-```bash
-npm i -g agent-browser
-agent-browser install  # 설치된 Chrome이 없을 때만
-```
-
-## Claude Code 워크플로우
+## Codex 워크플로우
 
 ```mermaid
 flowchart LR
