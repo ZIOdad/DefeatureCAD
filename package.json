@@ -1,5 +1,5 @@
 {
-  "name": "claude-code-playbook-template",
+  "name": "codex-playbook-template",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "verify": "bun run lint && bun run typecheck && bun run test && bun run build"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

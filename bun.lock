@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "code-reset-scaffolding-444564",
+      "name": "codex-playbook-template",
       "dependencies": {
         "@base-ui/react": "^1.7.0",
         "class-variance-authority": "^0.7.1",

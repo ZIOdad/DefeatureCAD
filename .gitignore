@@ -44,9 +44,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# claude local settings
+# agent local settings
 .claude/settings.local.json
 .claude/launch.json
 
-# worktree
+# Claude Code worktrees (Codex managed worktrees live outside the repository)
 .claude/worktrees
